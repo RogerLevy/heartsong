@@ -1,0 +1,4 @@
+bitmap assets/gfx/vga8x16.png
+vga8x16.png 8 8 tileset-from vga8x16.ts
+vga8x16.ts 0 tile pile !
+s" assets/gfx/bgmetas.dat" vga8x16.ts load-metas 

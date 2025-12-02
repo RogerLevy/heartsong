@@ -1,0 +1,67 @@
+\ ------------------------------------------------------------------------------
+\ heartsong
+\ ------------------------------------------------------------------------------
+
+\ Constants
+640 constant gamew
+400 constant gameh
+
+4800 constant tmw
+25 constant tmh
+8 constant xgap
+16 constant ygap
+gamew xgap / 1 + constant tmvw
+gameh ygap / constant tmvh
+
+100 constant #actors
+100 constant #rooms
+
+\ Load engine
+REQUIRE %vfxland5%/supershow/supershow.vfx
+
+\ Load Tiled utilities
+REQUIRE %vfxland5%/cjson/cjson.vfx
+REQUIRE %idir%/tiled.vfx
+
+
+JSONFILE %idir%/assets/map/map-v1.tmj
+\ map-v1.tmj "base" find-layer
+aka map map-v1.tmj
+map "base" tilemap-from base.tm
+
+: game
+    show> 
+        0 0 at
+        m{ 
+            0e 0e 0.5e 0.5e 0e transform
+            base.tm draw 
+        m} ;
+
+game 
+
+((
+
+\ Global assets
+." Loading assets..." cr
+s" require assets.vfx" ['] evaluate time? cr
+
+\ load game-specific modules (dependencies)
+\ require %idir%/savegame.vfx
+\ require %idir%/common.vfx
+\ require %idir%/platform.vfx
+\ require %idir%/platformer.vfx
+
+\ Modes
+require %idir%/game.vfx
+require %idir%/gameover.vfx
+require %idir%/options.vfx
+require %idir%/finish.vfx
+
+\ Load scripts
+s" %idir%/scripts" ['] required each-file
+
+\ Load tools and run tests
+debug @ [if]
+    \ include %vfxland5%\spunk\tools.vfx
+    include %idir%/testing.vfx
+[then]
