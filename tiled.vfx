@@ -11,21 +11,21 @@ private
     >r cell array{ r> gids, array} ;
 
 : @dims ( layerSrc - w h )
-    dup "width" @j swap "height" @j ;
+    dup "width" j@n swap "height" j@n ;
 
-: @xy ( jobj - x. y. )
-    >r r@ "x" p@j r@ "width" p@j 2 / +
-       r@ "y" p@j r> "height" p@j 2 / - ;
+: @pos ( jobj - x. y. )
+    >r r@ "x" j@p r@ "width" j@p 2 / +
+       r@ "y" j@p r> "height" j@p 2 / - ;
 
 : @actor ( jobj - actor|0 )
     {: obj :}
-    obj "type" ['] s@j catch if
+    obj "type" ['] j@s catch if
         2drop
         ." No 'type' property found in JSON object, skipping..." cr
         0 exit
     then
     f" %%%s" sfind if
-        execute make { obj @xy x 2!
+        execute make { obj @pos x 2!
         me }
     else
         ( $ ) f" Class %$ not found, skipping..." type cr
@@ -82,7 +82,7 @@ class;
     bl parse 2dup -path %jsonfile asset { embed _load-json }
     does> dup >srcpath$ to tmjPath$ >json @ ;
 
-: jnamed? ( jobj zname - flag ) swap "name" z@j z$= ;
+: jnamed? ( jobj zname - flag ) swap "name" j@z z$= ;
 
 : find-layer ( tmj zlayer-name - jlayer )
     to zname to tmjSrc
@@ -94,23 +94,23 @@ class;
 
 : ?tileset ( jtileset - )
     to tsSrc
-    tsSrc "source" s@j '.' ending s" tsx" s= abort" Only .TSJ tilesets are supported."
-    tsSrc "source" s@j -path sfind nip ?exit  \ tileset is already loaded
+    tsSrc "source" j@s '.' ending s" tsx" s= abort" Only .TSJ tilesets are supported."
+    tsSrc "source" j@s -path sfind nip ?exit  \ tileset is already loaded
 
-    tsSrc "source" s@j 
+    tsSrc "source" j@s 
     tmjPath$ count '\' <scan
     f" jsonfile %s\%s" .evaluate  \ load the .TSJ file
     lastbody >json @ to tsjSrc
-    tsjSrc "image" s@j -path sfind nip 0= if
-        tsjSrc "image" s@j 
+    tsjSrc "image" j@s -path sfind nip 0= if
+        tsjSrc "image" j@s 
         tmjPath$ count '\' <scan
         f" bitmap %s\%s" .evaluate  \ load the bitmap
     then
 
-    tsSrc "source" s@j -path -ext
-    tsjSrc "tileheight" @j
-    tsjSrc "tilewidth" @j
-    tsjSrc "image" s@j -path
+    tsSrc "source" j@s -path -ext
+    tsjSrc "tileheight" j@n
+    tsjSrc "tilewidth" j@n
+    tsjSrc "image" j@s -path
     f" %s %n %n tileset-from %s.ts" .evaluate
 ;
 
@@ -129,10 +129,10 @@ class;
         2dup j@ to tsSrc
 
         \ get nextGID
-        1 + dup jtilesets jlen < if j@ "firstgid" @j else 2drop 65536 then to nextGID
+        1 + dup jtilesets jlen < if j@ "firstgid" j@n else 2drop 65536 then to nextGID
 
         \ if tile# within the range, get the tileset object
-        tile#` tsSrc "firstgid" @j` nextGID` within? if drop tsSrc .s enough then
+        tile#` tsSrc "firstgid" j@n` nextGID` within? if drop tsSrc .s enough then
     ;] jeach ;
 
 : *tilemap-from ( tmj zlayername - tilemap )
@@ -145,8 +145,8 @@ class;
         ta @ find-first-nonzero find-tileset-ref ( jtileset )
         ?dup -exit 
         dup 
-        "source" s@j -ext f" %s.ts" evaluate ts !
-        "firstgid" @j negate  \ ts @ >baseid @ +
+        "source" j@s -ext f" %s.ts" evaluate ts !
+        "firstgid" j@n negate  \ ts @ >baseid @ +
         ta @ fix-gids 
     me } ;
 
