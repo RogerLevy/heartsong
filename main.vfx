@@ -25,7 +25,6 @@ REQUIRE %idir%/tiled.vfx
 
 
 JSONFILE %idir%/assets/map/map-v1.tmj
-\ map-v1.tmj "base" find-layer
 aka map map-v1.tmj
 map "base" tilemap-from base.tm
 
