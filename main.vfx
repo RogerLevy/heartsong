@@ -19,21 +19,28 @@ gameh ygap / constant tmvh
 \ Load engine
 REQUIRE %vfxland5%/supershow/supershow.vfx
 
+((
+
 \ Load Tiled utilities
 REQUIRE %vfxland5%/cjson/cjson.vfx
 REQUIRE %idir%/tiled.vfx
 
 
 JSONFILE %idir%/assets/map/map-v1.tmj
-aka map map-v1.tmj
-map "base" tilemap-from base.tm
+map-v1.tmj "base" TILEMAP-FROM base.tm
+
+JSONFILE %idir%/assets/map/asciitest.tmj
+asciitest.tmj "main" TILEMAP-FROM asciimain.tm
+asciitest.tmj "bgcolors" TILEMAP-FROM asciibg.tm
 
 : game
     show> 
         0 0 at
         m{ 
             0e 0e 0.5e 0.5e 0e transform
-            base.tm draw 
+            asciibg.tm draw
+            asciimain.tm draw
+            \ base.tm draw 
         m} ;
 
 game 

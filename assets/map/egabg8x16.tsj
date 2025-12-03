@@ -1,0 +1,14 @@
+{ "columns":8,
+ "image":"..\/gfx\/egabg8x16.png",
+ "imageheight":16,
+ "imagewidth":64,
+ "margin":0,
+ "name":"egabg8x16",
+ "spacing":0,
+ "tilecount":8,
+ "tiledversion":"1.11.2",
+ "tileheight":16,
+ "tilewidth":8,
+ "type":"tileset",
+ "version":"1.10"
+}
