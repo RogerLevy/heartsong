@@ -143,11 +143,12 @@ class;
         layerSrc @dims w 2!                           \ get dimensions
         layerSrc *array-from-jlayer ta !              \ get tiles (GID's)
         ta @ find-first-nonzero find-tileset-ref ( jtileset )
-        ?dup -exit 
-        dup 
-        "source" j@s -ext f" %s.ts" evaluate ts !
-        "firstgid" j@n negate  \ ts @ >baseid @ +
-        ta @ fix-gids 
+        ?dup if 
+            dup 
+            "source" j@s -ext f" %s.ts" evaluate ts !
+            "firstgid" j@n negate  \ ts @ >baseid @ +
+            ta @ fix-gids 
+        then
     me } ;
 
 : tilemap-from ( tileset tmj zname <name> - )
