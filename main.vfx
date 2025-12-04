@@ -6,25 +6,23 @@
 640 constant gamew
 400 constant gameh
 
-4800 constant tmw
-25 constant tmh
-8 constant xgap
-16 constant ygap
-gamew xgap / 1 + constant tmvw
-gameh ygap / constant tmvh
+\ 4800 constant tmw
+\ 25 constant tmh
+\ 8 constant xgap
+\ 16 constant ygap
+\ gamew xgap / 1 + constant tmvw
+\ gameh ygap / constant tmvh
 
 100 constant #actors
 100 constant #rooms
 
 \ Load engine
-REQUIRE %vfxland5%/supershow/supershow.vfx
-
-((
+\ ISOLATION ON
+\ REQUIRE %vfxland5%/supershow/supershow.vfx
 
 \ Load Tiled utilities
 REQUIRE %vfxland5%/cjson/cjson.vfx
 REQUIRE %idir%/tiled.vfx
-
 
 JSONFILE %idir%/assets/map/map-v1.tmj
 map-v1.tmj "base" TILEMAP-FROM base.tm

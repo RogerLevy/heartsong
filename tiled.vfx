@@ -1,3 +1,9 @@
+REQUIRE %vfxland5%/supershow/tilemap3.vfx
+REQUIRE %vfxland5%/supershow/actor.vfx
+REQUIRE %vfxland5%/supershow/stage.vfx
+REQUIRE %vfxland5%/supershow/traits.vfx
+REQUIRE %vfxland5%/supershow/autoload.vfx
+
 private
 
 0 value tile#  0 value nextGID  0 value tsSrc  0 value jtilesets
@@ -42,26 +48,6 @@ private
     [: udup +! ;] swap eacha drop ;
 
 public
-
-trait: %dimensional
-    prop w :int
-    prop h :int
-
-    :: dims ( - w h )
-        w 2@ ;
-trait;
-
-class: %tilemap
-    is-a %drawable
-    is-a %dimensional
-    prop ta :ref %array
-    prop ts :ref %tileset
-    \ 32 nprop name :cstring
-
-    :: draw ( - )
-        ts @ >baseid @ pile!
-        ta @ 0 nth w 2@ drawbg ;
-class;
 
 class: %jsonfile
     %asset derive
@@ -132,7 +118,7 @@ class;
         1 + dup jtilesets jlen < if j@ "firstgid" j@n else 2drop 65536 then to nextGID
 
         \ if tile# within the range, get the tileset object
-        tile#` tsSrc "firstgid" j@n` nextGID` within? if drop tsSrc .s enough then
+        tile#` tsSrc "firstgid" j@n` nextGID` within? if drop tsSrc enough then
     ;] jeach ;
 
 : *tilemap-from ( tmj zlayername - tilemap )
